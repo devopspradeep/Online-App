@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OnlineApp.Services.ProductAPI.Model
+namespace OnlineApp.Services.ProductAPI.Models
 {
     public class Product
     {
