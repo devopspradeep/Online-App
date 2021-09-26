@@ -9,11 +9,11 @@ namespace OnlineApp.Web.UI.Services
 {
     public class BaseService : IBaseService
     {
-        public ResponseDto responseModel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ResponseDto responseModel { get; set; }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            GC.SuppressFinalize(true);
         }
 
         public Task<T> SendAsync<T>(ApiRequest apiRequest)
