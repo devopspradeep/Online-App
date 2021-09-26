@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using OnlineApp.Services.ProductAPI;
 using OnlineApp.Services.ProductAPI.DBContexts;
+using OnlineApp.Services.ProductAPI.IRepository;
+using OnlineApp.Services.ProductAPI.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,9 +31,18 @@ namespace ProductAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddScoped<IProductRepository, ProductRepository>();
+
+
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProductAPI", Version = "v1" });

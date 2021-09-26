@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnlineApp.Services.ProductAPI.Model;
+using OnlineApp.Services.ProductAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
