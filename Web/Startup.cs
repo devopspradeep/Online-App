@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using OnlineApp.Web.UI;
+using OnlineApp.Web.UI.IServices;
+using OnlineApp.Web.UI.Services;
 
 namespace Web
 {
@@ -23,6 +21,9 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient<IProductService, ProductService>();
+            StaticConfiguration.ProductAPIBase = Configuration["ServiceUrls:productAPI"];
+            services.AddScoped<IProductService, ProductService>();
             services.AddRazorPages();
         }
 
@@ -40,15 +41,36 @@ namespace Web
                 app.UseHsts();
             }
 
+        
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "goto_one",
+            //        template: "one",
+            //        defaults: new { controller = "Home", action = "PageOne" });
+
+            //    routes.MapRoute(
+            //        name: "goto_two",
+            //        template: "two/{id?}",
+            //        defaults: new { controller = "Home", action = "PageTwo" });
+
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //});
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+  
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
         }
